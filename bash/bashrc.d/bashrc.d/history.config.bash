@@ -15,7 +15,5 @@ HISTTIMEFORMAT='%F %T  '
 #shopt -s cmdhist
 
 # Ignore the fluffy commands
-#HISTIGNORE='ls:history:pwd:git\ st:git\ status:git\ diff:clear:exit'i
-# Ignore all commands without params
-HISTIGNORE="!(+(*\ *)):git\ st:git\ status:git\ diff" 
+HISTIGNORE='ls:history:pwd:git\ st:git\ status:git\ diff:clear:exit'i
 
