@@ -15,7 +15,7 @@ fi
 
 # Load all supplementary scripts in ~/.profile.d
 if [ -d "$HOME"/profile.d ] ; then
-  for profile in "$HOME"/.profile.d/*.sh ; do
+  for profile in "$HOME"/profile.d/*.sh ; do
     if [ -e "$profile" ] ; then
       . "$profile"
     fi
