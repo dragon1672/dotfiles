@@ -9,7 +9,7 @@ unset tmp
 
 prompt() {
 
-  GREEN='\e[38;5;22m'
+  GREEN='\[\e[38;5;22m\]'
   BLUE='\[\033[5;36m\]'
   STATUSCOLOR=$BLUE
   VERSIONCOLOR=$GREEN
@@ -20,8 +20,8 @@ prompt() {
     on)
       PS1="${STATUSCOLOR}"
       if [ $# -eq 1 ] || [[ $* == *--default* ]]; then
-        #PS1=$PS1'\h:' # Host
-        #PS1=$PS1'\u:' # User
+        PS1=$PS1'\h:' # Host
+        PS1=$PS1'\u:' # User
         PS1=$PS1'\w'  # Full Directory path
         PROMPT_DIRTRIM=2
         if [[ $* != *--light* ]]; then
@@ -54,7 +54,7 @@ prompt() {
         statusMods="*"
       fi
 
-      printf '[git:'$branch''$statusMods']'
+      echo '[git:'$branch''$statusMods']'
 
       ;;
     ret)
