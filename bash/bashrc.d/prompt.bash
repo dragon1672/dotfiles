@@ -20,8 +20,9 @@ prompt() {
     on)
       PS1="${STATUSCOLOR}"
       if [ $# -eq 1 ] || [[ $* == *--default* ]]; then
-        PS1=$PS1'\h:' # Host
-        PS1=$PS1'\u:' # User
+        #PS1=$PS1'\h:' # Host
+        #PS1=$PS1'\u:' # User
+        PS1=$PS1'${USER:0:3}:' # User
         PS1=$PS1'\w'  # Full Directory path
         PROMPT_DIRTRIM=2
         if [[ $* != *--light* ]]; then
