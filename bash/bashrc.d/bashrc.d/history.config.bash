@@ -1,5 +1,4 @@
 # don't put duplicate lines or lines starting with space in the history.
-# See bash(1) for more options
 HISTCONTROL=ignoreboth
 
 # append to the history file, don't overwrite it
@@ -11,4 +10,12 @@ HISTFILESIZE=2000
 
 # Keep the times of the commands in history
 HISTTIMEFORMAT='%F %T  '
+
+# Force multi line commands to one line
+#shopt -s cmdhist
+
+# Ignore the fluffy commands
+#HISTIGNORE='ls:history:pwd:git\ st:git\ status:git\ diff:clear:exit'i
+# Ignore all commands without params
+HISTIGNORE="!(+(*\ *)):git\ st:git\ status:git\ diff" 
 
