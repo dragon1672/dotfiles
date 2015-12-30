@@ -19,21 +19,20 @@ prompt() {
   case $1 in
     on)
       PS1="${STATUSCOLOR}"
-      if [ $# -eq 1 ] || [[ $* == *--default* ]]; then
+      if [[ $* == *--google* ]]; then
+        PS1=$PS1'\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\'
+      elif [[ $* != *--minimal* ]]; then
         #PS1=$PS1'\h:' # Host
         #PS1=$PS1'\u:' # User
         PS1=$PS1'${USER:0:3}:' # User
         PS1=$PS1'\w'  # Full Directory path
         PROMPT_DIRTRIM=2
-        if [[ $* != *--light* ]]; then
+        if [[ $* != *-light* ]]; then
           PS1=$PS1$VERSIONCOLOR
           PS1=$PS1'$(prompt git)'
           PS1=$PS1$STATUSCOLOR
           PS1=$PS1'$(prompt ret)'
         fi
-      elif [[ $* == *--google*  ]]; then
-        PS1=$PS1'\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\'
-        #elif [[ $* == *--minimal*  ]]; then
       fi
       PS1=$PS1'$ '$DEFAULTCOL
 
