@@ -9,12 +9,21 @@ unset tmp
 
 prompt() {
 
-  GREEN='\[\e[38;5;22m\]'
-  BLUE='\[\033[5;36m\]'
-  STATUSCOLOR=$BLUE
-  VERSIONCOLOR=$GREEN
-  DEFAULTCOL='\[\e[m\]'
+  local GREEN='\[\e[38;5;22m\]'
+  local BLUE='\[\033[5;36m\]'
+  local STATUSCOLOR=$BLUE
+  local VERSIONCOLOR=$GREEN
+  local DEFAULTCOL='\[\e[m\]'
   PROMPT_DIRTRIM=
+
+  #local LineEnder="$ "
+  #local LineEnder="» "
+  #local LineEnder="⇒ "
+  #local LineEnder="→ "
+  #local LineEnder="⇰ "
+  #local LineEnder="‣ "
+  #local LineEnder="⊳ "
+  local LineEnder="⨠ "
 
   case $1 in
     on)
@@ -34,7 +43,7 @@ prompt() {
           PS1=$PS1'$(prompt ret)'
         fi
       fi
-      PS1=$PS1'$ '$DEFAULTCOL
+      PS1=$PS1$LineEnder$DEFAULTCOL
 
       ;;
     off)
@@ -42,8 +51,7 @@ prompt() {
       ;;
     git)
 
-      branch=$(git symbolic-ref HEAD 2>/dev/null)
-      if [[ ! -n $branch ]]; then return 1; fi # there is no branch :(
+      branch=$(git symbolic-ref HEAD 2>/dev/null) || return 1 # return if there is no branch :(
 
       branch=${branch##*/} # trimmed down the branch name
 
@@ -52,9 +60,14 @@ prompt() {
       statusMods=''
       if [[ -n $gitstatus ]]; then
         statusMods="*"
+        statusMods="∴"
+        statusMods="•"
+        statusMods="⟡"
       fi
 
-      echo '[git:'$branch''$statusMods']'
+      local gitsymbol="☁ "
+      #local gitsymbol="♆ "
+      echo '['$gitsymbol$branch''$statusMods']'
 
       ;;
     ret)
@@ -62,7 +75,9 @@ prompt() {
         if [[ $* == *--clear* ]]; then
           str='%d'
         else
+          #  ⦃ ⦄ ⦅ ⦆ ⦇ ⦈ ⦉ ⦊ ⦋ ⦌ ⦍ ⦎ ⦏ ⦐ ⦑ ⦒ ⦓ ⦔ ⦕ ⦖ ⦗ ⦘ ⦙ ⦚ ⦛ ⦜ ⦝ ⦞ ⦟
           str='<%d>'
+          str='⦅%d⦆'
         fi
         printf $str "$PROMPT_RETURN"
       fi
