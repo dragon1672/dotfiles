@@ -23,7 +23,8 @@ prompt() {
   #local LineEnder="⇰ "
   #local LineEnder="‣ "
   #local LineEnder="⊳ "
-  local LineEnder="⨠ "
+  #local LineEnder="⨠ "
+  local LineEnder=" » "
 
   case $1 in
     on)
@@ -60,12 +61,12 @@ prompt() {
       statusMods=''
       if [[ -n $gitstatus ]]; then
         statusMods="*"
-        statusMods="∴"
-        statusMods="•"
-        statusMods="⟡"
+        #statusMods="∴"
+        #statusMods="•"
+        #statusMods="⟡"
       fi
 
-      local gitsymbol="☁ "
+      #local gitsymbol="☁ "
       #local gitsymbol="♆ "
       echo '['$gitsymbol$branch''$statusMods']'
 
@@ -77,7 +78,8 @@ prompt() {
         else
           #  ⦃ ⦄ ⦅ ⦆ ⦇ ⦈ ⦉ ⦊ ⦋ ⦌ ⦍ ⦎ ⦏ ⦐ ⦑ ⦒ ⦓ ⦔ ⦕ ⦖ ⦗ ⦘ ⦙ ⦚ ⦛ ⦜ ⦝ ⦞ ⦟
           str='<%d>'
-          str='⦅%d⦆'
+          #str='⦅%d⦆'
+          #str='⦑%d⦒'
         fi
         printf $str "$PROMPT_RETURN"
       fi
