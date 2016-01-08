@@ -1,5 +1,0 @@
-name=bashrc
-cp ~/.$name "$(dirname $0)/$name"
-rm -rf "$(dirname $0)/$name.d"
-mkdir "$(dirname $0)/$name.d"
-cp -r ~/$name.d/ "$(dirname $0)/"
