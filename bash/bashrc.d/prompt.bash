@@ -28,7 +28,8 @@ prompt() {
 
   case $1 in
     on)
-      PS1="${STATUSCOLOR}"
+      # clear any current effects and set color
+      PS1="${DEFAULTCOL}${STATUSCOLOR}"
       if [[ $* == *--google* ]]; then
         PS1=$PS1'\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\'
       elif [[ $* != *--minimal* ]]; then
