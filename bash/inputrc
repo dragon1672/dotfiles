@@ -1,0 +1,14 @@
+$include /etc/inputrc
+
+
+# from internet
+"\eOd": backward-word
+"\e[5D": backward-word  # for OS X
+"\eOc": forward-word
+"\e[5C": forward-word   # for OS X
+
+
+set completion-ignore-case on
+#set completion-prefix-display-length 2
+set show-all-if-ambiguous on
+set show-all-if-unmodified on
