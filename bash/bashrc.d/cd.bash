@@ -10,3 +10,11 @@ cd() {
     command cd -
   fi
 }
+
+
+# Better make dir
+
+md() {
+  mkdir -p "$@"
+  cd "$@"
+}
