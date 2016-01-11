@@ -10,7 +10,7 @@ unset tmp
 prompt() {
 
   local GREEN='\[\e[38;5;22m\]'
-  local BLUE='\[\033[5;36m\]'
+  local BLUE='\[\033[0;36m\]'
   local STATUSCOLOR=$BLUE
   local VERSIONCOLOR=$GREEN
   local DEFAULTCOL='\[\e[m\]'
@@ -53,7 +53,7 @@ prompt() {
       ;;
     git)
 
-      branch=$(git symbolic-ref HEAD 2>/dev/null) || return 1 # return if there is no branch :(
+      branch=$(git symbolic-ref HEAD 2>/dev/null || git rev-parse --short HEAD 2>/dev/null) || return 1 # return if there is no branch :(
 
       branch=${branch##*/} # trimmed down the branch name
 
@@ -69,6 +69,7 @@ prompt() {
 
       #local gitsymbol="☁ "
       #local gitsymbol="♆ "
+      local gitsymbol=""
       echo '['$gitsymbol$branch''$statusMods']'
 
       ;;
