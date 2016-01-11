@@ -69,7 +69,7 @@ prompt() {
 
       #local gitsymbol="☁ "
       #local gitsymbol="♆ "
-      local gitsymbol=""
+      #local gitsymbol=""
       echo '['$gitsymbol$branch''$statusMods']'
 
       ;;
