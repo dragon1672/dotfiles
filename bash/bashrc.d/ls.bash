@@ -1,5 +1,10 @@
 ls() {
-  command ls --color=auto $@
+  if [ "$(uname)" == "Darwin" ]; then
+    command ls -G $@
+  else
+    command ls --color=auto $@
+  fi
+
 }
 ll() {
   ls -alF
