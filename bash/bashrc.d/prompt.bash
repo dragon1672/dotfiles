@@ -58,7 +58,7 @@ prompt() {
       branch=${branch##*/} # trimmed down the branch name
 
       #TODO: use git status --porcelain to determin what file status it is
-      gitstatus=$(git status -z --porcelain) #-z makes it 1 line
+      gitstatus=$(git status -z --porcelain 2>/dev/null) #-z makes it 1 line
       statusMods=''
       if [[ -n $gitstatus ]]; then
         statusMods="*"
