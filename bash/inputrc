@@ -6,6 +6,8 @@ $include /etc/inputrc
 "\e[5D": backward-word  # for OS X
 "\eOc": forward-word
 "\e[5C": forward-word   # for OS X
+"\e[1;5D": backward-word # Ctr-Arrow Keys
+"\e[1;5C": forward-word # Ctr-Arrow Keys
 
 
 set completion-ignore-case on
