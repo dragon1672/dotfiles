@@ -4,8 +4,10 @@ up() {
   then
     cd ..
   else
+    local path=''
     for i in `seq 1 $@`; do
-      cd ..
+      path="$path../"
     done
+    cd $path
   fi
 }
