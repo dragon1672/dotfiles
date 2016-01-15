@@ -36,7 +36,8 @@ prompt() {
         #PS1=$PS1'\h:' # Host
         #PS1=$PS1'\u:' # User
         PS1=$PS1'${USER:0:3}:' # User
-        PS1=$PS1'\w'  # Full Directory path
+        #PS1=$PS1'\w'  # Full Directory path
+        PS1=$PS1'$(prompt path)'  # Smart dir path
         PROMPT_DIRTRIM=2
         if [[ $* != *-light* ]]; then
           PS1=$PS1$VERSIONCOLOR
@@ -50,6 +51,24 @@ prompt() {
       ;;
     off)
       prompt on --minimal
+      ;;
+    path)
+      pwd_length=14
+      pwd_symbol="..."
+      newPWD=$PWD
+      if [ -d .git ] || git rev-parse --git-dir &> /dev/null; then
+        gitFullDir=$(git rev-parse --show-toplevel)
+        gitDir=$(basename $gitFullDir)
+        newPWD=${newPWD/#$gitFullDir/$gitDir}
+      fi
+      newPWD="${newPWD/$HOME/'~'}"
+      if [ $(echo -n $newPWD | wc -c | tr -d " ") -gt $pwd_length ]
+      then
+        newPWD=$(echo -n $newPWD | awk -F '/' '{
+        print $1 "/.../" $(NF-1) "/" $(NF)}')
+        #print $1 "/" $2 "/.../" $(NF-1) "/" $(NF)}')
+      fi
+      echo $newPWD
       ;;
     git)
 
