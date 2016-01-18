@@ -3,5 +3,7 @@ alias rm="rm -i"
 alias mv="mv -i"
 alias cp="cp -i"
 
-alias say='spd-say'
+if [ ! "$(uname)" == "Darwin" ]; then
+  alias say='spd-say'
+fi
 alias wget='wget -c'
