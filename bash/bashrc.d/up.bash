@@ -19,14 +19,15 @@ up() {
   else
     #are we dealing with a number
     if [[ $@ =~ ^-?[0-9]+$ ]]; then
-      local path=''
+      local path='./'
       for i in `seq 1 $@`; do
         path="$path../"
       done
       cd $path
     else #we are dealing with a string
       local path=$PWD/
-      local foundFolder=${path#*$@*/}
+      local foundFolder=${path##*$@}
+      foundFolder=${foundFolder#*/}
       local cdUp=${foundFolder//[^\/]}
       cdUp=${#cdUp}
       #lets go there
