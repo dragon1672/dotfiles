@@ -53,16 +53,19 @@ prompt() {
       prompt on --minimal
       ;;
     path)
-      pwd_length=14
-      pwd_symbol="..."
-      newPWD=$PWD
+      #TODO add second check to make sure more than 3 dirs as well as over length requirement
+      local pwd_length=14
+      local pwd_symbol="..."
+      local newPWD=$PWD
       if [ -d .git ] || git rev-parse --git-dir &> /dev/null; then
-        gitFullDir=$(git rev-parse --show-toplevel)
-        gitDir=$(basename $gitFullDir)
+        local gitFullDir=$(git rev-parse --show-toplevel)
+        local gitDir=$(basename $gitFullDir)
         newPWD=${newPWD/#$gitFullDir/$gitDir}
       fi
       newPWD="${newPWD/$HOME/'~'}"
-      if [ $(echo -n $newPWD | wc -c | tr -d " ") -gt $pwd_length ]
+      local numPathsTmp="${newPWD//[^\/]}"
+      numPathsTmp=${#numPathsTmp}
+      if [ $(echo -n $newPWD | wc -c | tr -d " ") -gt $pwd_length ] && [ $numPathsTmp -gt 3 ]
       then
         newPWD=$(echo -n $newPWD | awk -F '/' '{
         print $1 "/.../" $(NF-1) "/" $(NF)}')
