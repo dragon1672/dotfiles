@@ -1,5 +1,5 @@
 #default pre prompt is first 3 letters of username
-[ -z ${MY_PROMPT_PRE_TEXT+x} ] && MY_PROMPT_PRE_TEXT='${USER:0:3}:'
+[ -z ${MY_PROMPT_PRE_TEXT+x} ] && MY_PROMPT_PRE_TEXT=${USER:0:3}:
 
 if [ -z ${PROMPT_COMMAND+x} ]; then PROMPT_COMMAND=""; fi
 tmp='declare -i PROMPT_RETURN=$?'
@@ -62,7 +62,8 @@ prompt() {
         local gitDir=$(basename $gitFullDir)
         newPWD=${newPWD/#$gitFullDir/$gitDir}
       fi
-      newPWD="${newPWD/$HOME/'~'}"
+      local tmp='~'
+      newPWD="${newPWD/$HOME/$tmp}"
       local numPathsTmp="${newPWD//[^\/]}"
       numPathsTmp=${#numPathsTmp}
       if [ $(echo -n $newPWD | wc -c | tr -d " ") -gt $pwd_length ] && 
