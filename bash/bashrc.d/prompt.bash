@@ -1,5 +1,7 @@
 #default pre prompt is first 3 letters of username
 [ -z ${MY_PROMPT_PRE_TEXT+x} ] && MY_PROMPT_PRE_TEXT=${USER:0:3}:
+#default line ender
+[ -z ${MY_PROMPT_LINE_ENDER+x} ] && MY_PROMPT_LINE_ENDER=" » "
 
 if [ -z ${PROMPT_COMMAND+x} ]; then PROMPT_COMMAND=""; fi
 tmp='declare -i PROMPT_RETURN=$?'
@@ -17,16 +19,6 @@ prompt() {
   local DEFAULTCOL='\[\e[m\]'
   PROMPT_DIRTRIM=
 
-  #local LineEnder="$ "
-  #local LineEnder="» "
-  #local LineEnder="⇒ "
-  #local LineEnder="→ "
-  #local LineEnder="⇰ "
-  #local LineEnder="‣ "
-  #local LineEnder="⊳ "
-  #local LineEnder="⨠ "
-  local LineEnder=" » "
-
   case $1 in
     on)
       # clear any current effects and set color
@@ -34,7 +26,7 @@ prompt() {
       if [[ $* == *--google* ]]; then
         PS1=$PS1'\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\'
       elif [[ $* != *--minimal* ]]; then
-        PS1=$PS1'${MY_PROMPT_PRE_TEXT}'
+        PS1=$PS1'$MY_PROMPT_PRE_TEXT'
         #PS1=$PS1'\h:' # Host
         #PS1=$PS1'\u:' # User
         #PS1=$PS1'\w'  # Full Directory path
@@ -47,7 +39,7 @@ prompt() {
           PS1=$PS1'$(prompt ret)'
         fi
       fi
-      PS1=$PS1$LineEnder$DEFAULTCOL
+      PS1=$PS1'$MY_PROMPT_LINE_ENDER'$DEFAULTCOL
 
       ;;
     off)
