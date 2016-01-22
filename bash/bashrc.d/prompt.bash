@@ -1,4 +1,5 @@
-
+#default pre prompt is first 3 letters of username
+[ -z ${MY_PROMPT_PRE_TEXT+x} ] && MY_PROMPT_PRE_TEXT='${USER:0:3}:'
 
 if [ -z ${PROMPT_COMMAND+x} ]; then PROMPT_COMMAND=""; fi
 tmp='declare -i PROMPT_RETURN=$?'
@@ -33,9 +34,9 @@ prompt() {
       if [[ $* == *--google* ]]; then
         PS1=$PS1'\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\'
       elif [[ $* != *--minimal* ]]; then
+        PS1=$PS1'${MY_PROMPT_PRE_TEXT}'
         #PS1=$PS1'\h:' # Host
         #PS1=$PS1'\u:' # User
-        PS1=$PS1'${USER:0:3}:' # User
         #PS1=$PS1'\w'  # Full Directory path
         PS1=$PS1'$(prompt path)'  # Smart dir path
         PROMPT_DIRTRIM=2
@@ -53,7 +54,6 @@ prompt() {
       prompt on --minimal
       ;;
     path)
-      #TODO add second check to make sure more than 3 dirs as well as over length requirement
       local pwd_length=14
       local pwd_symbol="..."
       local newPWD=$PWD
@@ -65,7 +65,8 @@ prompt() {
       newPWD="${newPWD/$HOME/'~'}"
       local numPathsTmp="${newPWD//[^\/]}"
       numPathsTmp=${#numPathsTmp}
-      if [ $(echo -n $newPWD | wc -c | tr -d " ") -gt $pwd_length ] && [ $numPathsTmp -gt 3 ]
+      if [ $(echo -n $newPWD | wc -c | tr -d " ") -gt $pwd_length ] && 
+        [ $numPathsTmp -gt 3 ]
       then
         newPWD=$(echo -n $newPWD | awk -F '/' '{
         print $1 "/.../" $(NF-1) "/" $(NF)}')
