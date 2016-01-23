@@ -51,7 +51,7 @@ prompt() {
       local newPWD=$PWD
       if [ -d .git ] || git rev-parse --git-dir &> /dev/null; then
         local gitFullDir=$(git rev-parse --show-toplevel)
-        local gitDir=$(basename $gitFullDir)
+        local gitDir=$(basename $gitFullDir 2>/dev/null)
         newPWD=${newPWD/#$gitFullDir/$gitDir}
       fi
       local tmp='~'
