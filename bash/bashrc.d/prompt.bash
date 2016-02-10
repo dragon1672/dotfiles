@@ -3,6 +3,10 @@
 #default line ender
 [ -z ${MY_PROMPT_LINE_ENDER+x} ] && MY_PROMPT_LINE_ENDER=" » "
 
+[ -z ${MY_PROMPT_PATH_SHORTCUTS+x} ] && MY_PROMPT_PATH_SHORTCUTS=(
+$HOME'::~'
+)
+
 if [ -z ${PROMPT_COMMAND+x} ]; then PROMPT_COMMAND=""; fi
 tmp='declare -i PROMPT_RETURN=$?'
 if [[ $PROMPT_COMMAND != *$tmp* ]]; then
@@ -54,8 +58,14 @@ prompt() {
         local gitDir=$(basename $gitFullDir 2>/dev/null)
         newPWD=${newPWD/#$gitFullDir/$gitDir}
       fi
-      local tmp='~'
-      newPWD="${newPWD/$HOME/$tmp}"
+      #local tmp='~'
+      #newPWD="${newPWD/$HOME/$tmp}"
+
+      for index in "${array[@]}" ; do
+        local KEY="${index%%::*}"
+        local VALUE="${index##*::}"
+        newPWD="${newPWD/$KEY/$VALUE}"
+      done
       local numPathsTmp="${newPWD//[^\/]}"
       numPathsTmp=${#numPathsTmp}
       if [ $(echo -n $newPWD | wc -c | tr -d " ") -gt $pwd_length ] && 
