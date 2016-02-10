@@ -61,7 +61,7 @@ prompt() {
       #local tmp='~'
       #newPWD="${newPWD/$HOME/$tmp}"
 
-      for index in "${array[@]}" ; do
+      for index in "${MY_PROMPT_PATH_SHORTCUTS[@]}" ; do
         local KEY="${index%%::*}"
         local VALUE="${index##*::}"
         newPWD="${newPWD/$KEY/$VALUE}"
