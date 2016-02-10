@@ -50,7 +50,7 @@ prompt() {
       prompt on --minimal
       ;;
     path)
-      local pwd_length=14
+      local pwd_length=14 # collapse logic length trigger
       local pwd_symbol="..."
       local newPWD=$PWD
       if [ -d .git ] || git rev-parse --git-dir &> /dev/null; then
@@ -61,19 +61,21 @@ prompt() {
       #local tmp='~'
       #newPWD="${newPWD/$HOME/$tmp}"
 
+      # Replace user defined shortcuts
       for index in "${MY_PROMPT_PATH_SHORTCUTS[@]}" ; do
         local KEY="${index%%::*}"
         local VALUE="${index##*::}"
         newPWD="${newPWD/$KEY/$VALUE}"
       done
-      local numPathsTmp="${newPWD//[^\/]}"
-      numPathsTmp=${#numPathsTmp}
-      if [ $(echo -n $newPWD | wc -c | tr -d " ") -gt $pwd_length ] && 
-        [ $numPathsTmp -gt 3 ]
+
+      # Collapse logic
+      local numPathsTmp="${newPWD//[^\/]}" # get just the folder slashes
+      numPathsTmp=${#numPathsTmp} # could folder slashes to get number of dirs
+      if [ $(echo -n $newPWD | wc -c | tr -d " ") -gt $pwd_length ] &&
+        [ $numPathsTmp -gt 3 ] # has to be at more than 3 folders
       then
         newPWD=$(echo -n $newPWD | awk -F '/' '{
-        print $1 "/.../" $(NF-1) "/" $(NF)}')
-        #print $1 "/" $2 "/.../" $(NF-1) "/" $(NF)}')
+        print $1 "/'$pwd_symbol'/" $(NF-1) "/" $(NF)}')
       fi
       echo $newPWD
       ;;
