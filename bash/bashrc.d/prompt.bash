@@ -16,6 +16,7 @@ unset tmp
 
 prompt() {
 
+  #TODO use tput and expose the vars
   local GREEN='\[\e[38;5;22m\]'
   local BLUE='\[\033[0;36m\]'
   local STATUSCOLOR=$BLUE
@@ -40,6 +41,7 @@ prompt() {
           PS1=$PS1$VERSIONCOLOR
           PS1=$PS1'$(prompt git)'
           PS1=$PS1$STATUSCOLOR
+          PS1=$PS1'$(prompt job)'
           PS1=$PS1'$(prompt ret)'
         fi
       fi
@@ -49,6 +51,16 @@ prompt() {
     off)
       prompt on --minimal
       ;;
+    job) # Show the count of background jobs in curly brackets, if not zero
+      local -i jobc
+      while read -r _ ; do
+        ((jobc++))
+      done < <(jobs -p)
+      if ((jobc > 0)) ; then
+        printf '{%u}' "$jobc"
+      fi
+      ;;
+
     path)
       local pwd_length=14 # collapse logic length trigger
       local pwd_symbol="..."
@@ -73,48 +85,48 @@ prompt() {
       numPathsTmp=${#numPathsTmp} # could folder slashes to get number of dirs
       if [ $(echo -n $newPWD | wc -c | tr -d " ") -gt $pwd_length ] &&
         [ $numPathsTmp -gt 3 ] # has to be at more than 3 folders
-      then
-        newPWD=$(echo -n $newPWD | awk -F '/' '{
-        print $1 "/'$pwd_symbol'/" $(NF-1) "/" $(NF)}')
+    then
+      newPWD=$(echo -n $newPWD | awk -F '/' '{
+      print $1 "/'$pwd_symbol'/" $(NF-1) "/" $(NF)}')
+    fi
+    echo $newPWD
+    ;;
+  git)
+
+    branch=$(git symbolic-ref HEAD 2>/dev/null || git rev-parse --short HEAD 2>/dev/null) || return 1 # return if there is no branch :(
+
+    branch=${branch##*/} # trimmed down the branch name
+
+    #TODO: use git status --porcelain to determin what file status it is
+    gitstatus=$(git status -z --porcelain 2>/dev/null) #-z makes it 1 line
+    statusMods=''
+    if [[ -n $gitstatus ]]; then
+      statusMods="*"
+      #statusMods="∴"
+      #statusMods="•"
+      #statusMods="⟡"
+    fi
+
+    #local gitsymbol="☁ "
+    #local gitsymbol="♆ "
+    #local gitsymbol=""
+    echo '['$gitsymbol$branch''$statusMods']'
+
+    ;;
+  ret)
+    if (( $PROMPT_RETURN > 0 )) || [[ $* == *--show* ]] ; then
+      if [[ $* == *--clear* ]]; then
+        str='%d'
+      else
+        #  ⦃ ⦄ ⦅ ⦆ ⦇ ⦈ ⦉ ⦊ ⦋ ⦌ ⦍ ⦎ ⦏ ⦐ ⦑ ⦒ ⦓ ⦔ ⦕ ⦖ ⦗ ⦘ ⦙ ⦚ ⦛ ⦜ ⦝ ⦞ ⦟
+        str='<%d>'
+        #str='⦅%d⦆'
+        #str='⦑%d⦒'
       fi
-      echo $newPWD
-      ;;
-    git)
-
-      branch=$(git symbolic-ref HEAD 2>/dev/null || git rev-parse --short HEAD 2>/dev/null) || return 1 # return if there is no branch :(
-
-      branch=${branch##*/} # trimmed down the branch name
-
-      #TODO: use git status --porcelain to determin what file status it is
-      gitstatus=$(git status -z --porcelain 2>/dev/null) #-z makes it 1 line
-      statusMods=''
-      if [[ -n $gitstatus ]]; then
-        statusMods="*"
-        #statusMods="∴"
-        #statusMods="•"
-        #statusMods="⟡"
-      fi
-
-      #local gitsymbol="☁ "
-      #local gitsymbol="♆ "
-      #local gitsymbol=""
-      echo '['$gitsymbol$branch''$statusMods']'
-
-      ;;
-    ret)
-      if (( $PROMPT_RETURN > 0 )) || [[ $* == *--show* ]] ; then
-        if [[ $* == *--clear* ]]; then
-          str='%d'
-        else
-          #  ⦃ ⦄ ⦅ ⦆ ⦇ ⦈ ⦉ ⦊ ⦋ ⦌ ⦍ ⦎ ⦏ ⦐ ⦑ ⦒ ⦓ ⦔ ⦕ ⦖ ⦗ ⦘ ⦙ ⦚ ⦛ ⦜ ⦝ ⦞ ⦟
-          str='<%d>'
-          #str='⦅%d⦆'
-          #str='⦑%d⦒'
-        fi
-        printf $str "$PROMPT_RETURN"
-      fi
-      ;;
-  esac
+      printf $str "$PROMPT_RETURN"
+    fi
+    ;;
+esac
 }
 
 prompt on
