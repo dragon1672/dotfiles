@@ -6,4 +6,3 @@ alias cp="cp -i"
 if [ ! "$(uname)" == "Darwin" ]; then
   alias say='spd-say'
 fi
-alias wget='wget -c'
