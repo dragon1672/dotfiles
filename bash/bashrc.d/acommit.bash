@@ -1,0 +1,3 @@
+acommit() {
+  git commit -am "$@"
+}
