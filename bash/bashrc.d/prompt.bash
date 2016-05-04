@@ -25,12 +25,13 @@ prompt() {
   PROMPT_DIRTRIM=
 
   case $1 in
-    on)
-      if [[ "$2" == "set" ]]; then
-        shift; shift;
+    set)
+        shift;
         PS1="$@"
         return
-      fi
+        ;;
+
+    on)
       # clear any current effects and set color
       PS1="${DEFAULTCOL}${STATUSCOLOR}"
       if [[ $* == *--google* ]]; then
