@@ -26,6 +26,11 @@ prompt() {
 
   case $1 in
     on)
+      if [[ "$2" == "set" ]]; then
+        shift; shift;
+        PS1="$@"
+        return
+      fi
       # clear any current effects and set color
       PS1="${DEFAULTCOL}${STATUSCOLOR}"
       if [[ $* == *--google* ]]; then
