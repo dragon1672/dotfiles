@@ -25,3 +25,6 @@ st() {
 diff() {
   is-git-repo && git diff "$@" || command diff
 }
+push() {
+  is-git-repo && git push "$@" || command push
+}
