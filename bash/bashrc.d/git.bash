@@ -28,3 +28,6 @@ diff() {
 push() {
   is-git-repo && git push "$@" || command push
 }
+add() {
+  is-git-repo && git add "$@" || command add
+}
