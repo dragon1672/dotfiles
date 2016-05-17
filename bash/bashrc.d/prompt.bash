@@ -2,7 +2,7 @@
 [ -z ${MY_PROMPT_PRE_TEXT+x} ] && MY_PROMPT_PRE_TEXT=${USER:0:3}:
 #default line ender
 [ -z ${MY_PROMPT_LINE_ENDER+x} ] && MY_PROMPT_LINE_ENDER=" » "
-
+[ -z ${MY_PROMPT_SHORTEN_LEN+x} ] && MY_PROMPT_SHORTEN_LEN=14
 [ -z ${MY_PROMPT_PATH_SHORTCUTS+x} ] && MY_PROMPT_PATH_SHORTCUTS=(
 $HOME'::~'
 )
@@ -68,7 +68,7 @@ prompt() {
       ;;
 
     path)
-      local pwd_length=14 # collapse logic length trigger
+      local pwd_length=$MY_PROMPT_SHORTEN_LEN # collapse logic length trigger
       local pwd_symbol="..."
       local newPWD=$PWD
       if [ -d .git ] || git rev-parse --git-dir &> /dev/null; then
