@@ -6,28 +6,27 @@ gl() {
 is-git-repo() {
 $(git rev-parse --is-inside-work-tree &> /dev/null)
 }
-
 stash() {
-  is-git-repo && git stash "$@" || command stash "$@"
+  if is-git-repo; then git stash "$@"; else command stash "$@"; fi
 }
 commit() {
-  is-git-repo && git commit "$@" || command commit "$@"
+  if is-git-repo; then git commit "$@"; else command commit "$@"; fi
 }
 br() {
   branch "$@"
 }
 branch() {
-  is-git-repo && git branch "$@" || command branch "$@"
+  if is-git-repo; then git branch "$@"; else command branch "$@"; fi
 }
 st() {
-  is-git-repo && git st "$@" || command st "$@"
+  if is-git-repo; then git st "$@"; else command st "$@"; fi
 }
 diff() {
-  is-git-repo && git diff "$@" || command diff "$@"
+  if is-git-repo; then git diff "$@"; else command diff "$@"; fi
 }
 push() {
-  is-git-repo && git push "$@" || command push "$@"
+  if is-git-repo; then git push "$@"; else command push "$@"; fi
 }
 add() {
-  is-git-repo && git add "$@" || command add "$@"
+  if is-git-repo; then git add "$@"; else command add "$@"; fi
 }

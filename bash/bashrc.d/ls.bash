@@ -1,17 +1,17 @@
 ls() {
   if [ "$(uname)" == "Darwin" ]; then
-    command ls -G $@
+    command ls -G "$@"
   else
-    command ls --color=auto $@
+    command ls --color=auto "$@"
   fi
 
 }
 ll() {
-  ls -alF
+  ls -alF "$@"
 }
 la() {
-  ls -A
+  ls -A "$@"
 }
 l() {
-  ls -CF
+  ls -CF "$@"
 }

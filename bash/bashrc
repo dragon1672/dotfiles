@@ -9,7 +9,8 @@ case $- in
 esac
 
 # Load any of my config stuff
-for config in "$HOME"/bashrc.d/*.bash ; do
-      source "$config"
+for myConfigFileTmp in "$HOME"/bashrc.d/*.bash ; do
+      source "$myConfigFileTmp"
 done
-unset -v config
+unset -v myConfigFileTmp
+

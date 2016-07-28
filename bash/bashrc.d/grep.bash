@@ -1,9 +1,9 @@
 grep() {
-  command grep --color=auto $@
+  command grep --color=auto "$@"
 }
 egrep() {
-  command egrep --color=auto $@
+  command egrep --color=auto "$@"
 }
 fgrep() {
-  command fgrep --color=auto $@
+  command fgrep --color=auto "$@"
 }
