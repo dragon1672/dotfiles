@@ -1,1 +1,52 @@
-:imap jj <Esc>
+"""""""""""" VISUAL STUFF """"""""""""
+set number       " Line numbers!!
+set cursorline   " adds a line under the line where the cursor is
+set smartcase " if all lowercase then it doesn't match case
+color desert
+"colorscheme base16-default
+"let base16colorspace=256
+set textwidth=80
+set colorcolumn=+1
+hi ColorColumn guibg=#2d2d2d ctermbg=246
+hi NonText guibg=#32322f ctermbg=236
+set background=dark
+" Code Folding
+set foldmethod=syntax
+set foldcolumn=1
+filetype off
+set term=xterm-256color " Allow arrow keys when inside tmux
+
+
+
+" Enable file type based indent configuration and syntax highlighting.
+filetype plugin indent on
+syntax on
+
+" set relativenumber style by default
+set rnu
+
+set hlsearch
+
+" enabling mouse
+set ttyfast
+set mouse=a
+" Must be one of: xterm, xterm2, netterm, dec, jsbterm, pterm
+set ttymouse=xterm2
+
+" Backup/swap files
+"set nobackup
+"set nosqap
+silent !mkdir ~/.vim > /dev/null 2>&1
+silent !mkdir ~/.vim/backup > /dev/null 2>&1
+set backupdir=~/.vim/backup
+silent !mkdir ~/.vim/swap > /dev/null 2>&1
+set directory=~/.vim/swap//
+
+" Adding 'jj' as excape key
+inoremap jj <ESC>
+
+" ;: both for commands
+" nnoremap ; :
+
+" redo change to ctr R to U
+nnoremap U <C-r>
